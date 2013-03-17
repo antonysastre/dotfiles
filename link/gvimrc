@@ -1,0 +1,16 @@
+" colorscheme twilight
+colorscheme solarized
+set guicursor=a:blinkon0
+set guifont=Monaco:h12
+set background=light
+
+" Disable toolbar on startup
+set guioptions-=T
+
+nnoremap <D-e> :NERDTree<CR>
+
+" fullscreen maximizes vertically AND horizontally
+set fuoptions=maxvert,maxhorz
+
+" Disable bell.
+set vb t_vb=

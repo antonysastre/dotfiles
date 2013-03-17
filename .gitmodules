@@ -1,0 +1,54 @@
+[submodule "link/vim/bundles/vim-rails"]
+	path = link/vim/bundles/vim-rails
+	url = git://github.com/tpope/vim-rails.git
+[submodule "link/vim/bundles/vim-cucumber"]
+	path = link/vim/bundles/vim-cucumber
+	url = git://github.com/tpope/vim-cucumber.git
+[submodule "link/vim/bundles/vim-vividchalk"]
+	path = link/vim/bundles/vim-vividchalk
+	url = git://github.com/tpope/vim-vividchalk.git
+[submodule "link/vim/bundles/vim-haml"]
+	path = link/vim/bundles/vim-haml
+	url = git://github.com/tpope/vim-haml.git
+[submodule "link/vim/bundles/vim-endwise"]
+	path = link/vim/bundles/vim-endwise
+	url = git://github.com/tpope/vim-endwise.git
+[submodule "link/vim/bundles/vim-surround"]
+	path = link/vim/bundles/vim-surround
+	url = git://github.com/tpope/vim-surround.git
+[submodule "link/vim/bundles/vim-unimpaired"]
+	path = link/vim/bundles/vim-unimpaired
+	url = git://github.com/tpope/vim-unimpaired.git
+[submodule "link/vim/bundles/vim-abolish"]
+	path = link/vim/bundles/vim-abolish
+	url = git://github.com/tpope/vim-abolish.git
+[submodule "link/vim/bundles/vim-repeat"]
+	path = link/vim/bundles/vim-repeat
+	url = git://github.com/tpope/vim-repeat.git
+[submodule "link/vim/bundles/nerdtree"]
+	path = link/vim/bundles/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
+[submodule "link/vim/bundles/nerdcommenter"]
+	path = link/vim/bundles/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "link/vim/bundles/vim-ragtag"]
+	path = link/vim/bundles/vim-ragtag
+	url = git://github.com/tpope/vim-ragtag.git
+[submodule "link/vim/bundles/vim-coffee-script"]
+	path = link/vim/bundles/vim-coffee-script
+	url = git://github.com/kchmck/vim-coffee-script.git
+[submodule "link/vim/bundles/vim-indent-object"]
+	path = link/vim/bundles/vim-indent-object
+	url = git://github.com/michaeljsmith/vim-indent-object.git
+[submodule "link/vim/bundles/vim-rake"]
+	path = link/vim/bundles/vim-rake
+	url = git://github.com/tpope/vim-rake.git
+[submodule "link/vim/bundles/vim-fugitive"]
+	path = link/vim/bundles/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "link/vim/bundles/tabular"]
+	path = link/vim/bundles/tabular
+	url = git://github.com/godlygeek/tabular.git
+[submodule "link/vim/bundles/ack.vim"]
+	path = link/vim/bundles/ack.vim
+	url = git://github.com/mileszs/ack.vim.git

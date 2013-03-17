@@ -1,0 +1,19 @@
+. ~/.zsh/aliases
+
+# changing directory to code project
+function p { cd ~/Projects/$1; }
+
+# alternative to "rails" command to use templates
+function railsapp {
+  appname=$1
+  rails $appname -m http://github.com/unders/rails-1-2-3-launcher/raw/master/generate.rb $@
+}
+
+# misc
+alias reload='. ~/.bash_profile'
+
+# tailing stuff
+alias tails="tail -n 400 -f"
+
+# tailing stuff
+alias be="bundle exec"
