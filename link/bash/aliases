@@ -41,6 +41,9 @@ alias %=' '
 # changing directory to code project
 function p { cd ~/Projects/$1; }
 
+# changing directory to home
+function h { cd ~/$1; }
+
 # alternative to "rails" command to use templates
 function railsapp {
   appname=$1
