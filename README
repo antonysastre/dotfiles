@@ -1,14 +1,12 @@
-eLabs Dot Files
-
+Dotfiles
 
 Installation
 
-  git clone git://github.com/adotapart/dotfiles ~/.dotfiles
+  git clone git@github.com:antonysastre/dotfiles.git ~/.dotfiles
   cd ~/.dotfiles
   ./setup
   source ~/.bash_profile
   # edit ~/.gitconfig and personalize it
-
 
 Features
 
