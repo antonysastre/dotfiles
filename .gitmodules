@@ -52,3 +52,6 @@
 [submodule "link/vim/bundles/ack.vim"]
 	path = link/vim/bundles/ack.vim
 	url = git://github.com/mileszs/ack.vim.git
+[submodule "vim-cjsx"]
+	path = vim-cjsx
+	url = https://github.com/mtscout6/vim-cjsx.git

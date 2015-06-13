@@ -107,3 +107,5 @@ map Å O<C-R>"<Esc>
 
 " allow switching away from buffers that have changes
 set hidden
+
+let g:ackprg = 'ag --nogroup --nocolor --column'
