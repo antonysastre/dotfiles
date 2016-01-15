@@ -1,8 +1,11 @@
+call pathogen#infect()
+
 " colorscheme twilight
-colorscheme solarized
+syntax enable
 set guicursor=a:blinkon0
 set guifont=Monaco:h10
 set background=dark
+colorscheme solarized
 
 " Disable toolbar on startup
 set guioptions-=T
