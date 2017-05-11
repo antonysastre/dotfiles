@@ -1,14 +1,16 @@
-Dotfiles
+# Dotfiles
 
-Installation
+## Installation
 
+  ```
   git clone git@github.com:antonysastre/dotfiles.git ~/.dotfiles
   cd ~/.dotfiles
   ./setup
   source ~/.bash_profile
   # edit ~/.gitconfig and personalize it
+  ```
 
-Features
+## Features
 
 Coding projects in ~/Projects can easily be accessed (and tab completed) with the "p" command.
 
