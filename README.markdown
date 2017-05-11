@@ -14,17 +14,17 @@
 
 Coding projects in ~/Projects can easily be accessed (and tab completed) with the "p" command.
 
-  p project-name<tab>
+  `p project-name<tab>`
 
 There is also an "h" command which behaves similar, but acts on the
 home path.
 
-  h doc<tab>
+  `h doc<tab>`
 
 Tab completion is also added to rake and cap commands:
 
-  rake db:mi<tab>
-  cap de<tab>
+  `rake db:mi<tab>`
+  `cap de<tab>`
 
 To speed things up, the results are cached in local .rake_tasks~ and
 .cap_tasks~. It is smart enough to expire the cache automatically in
@@ -42,16 +42,17 @@ the prompt while in a git repository.
 If you're using Rails, you'll find some handy aliases (below). You can
 also use show_log and hide_log in script/console to show the log inline.
 
-  rs       # rails server
+```
+  rs       # rails server
   rc       # rails console
   rg       # rails generate
   a        # autotest
   tlog     # tail -f log/development.log
   rst      # touch tmp/restart.txt
   migrate  # rake db:migrate db:test:clone
-  scaffold # script/generate nifty_scaffold
+```
 
-See the other aliases in ~/.zsh/aliases
+See the other aliases in `~/.zsh/aliases`
 
 If there are some shell configuration settings which you want secure or
 specific to one system, place it into a ~/.localrc file. This will be
