@@ -9,5 +9,3 @@ for f in `pwd`/link/*
 do
   ln -nsi $f ~/.`basename $f`
 done
-
-eval 'mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim'
