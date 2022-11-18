@@ -1,6 +1,6 @@
 [user]
-	name = Your Name
-	email = name@email.com
+	name = Antony Sastre
+	email = antony@northcollective.se
 [alias]
 	ci = commit
 	co = checkout
