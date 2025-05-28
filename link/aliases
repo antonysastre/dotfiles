@@ -1,9 +1,18 @@
 # cd
 alias ..='cd ..'
 
+# apps in progress
+
+alias shorty='~/Projects/tools/short.link/shorty.rb'
+
+# projects
+alias rq='cd ~/Projects/qasa-api && docker compose up -d && rails server'
+alias rh='cd ~/Projects/hapvis && ./bin/dev'
+alias sstop='brew services stop postgresql@16 && brew services stop redis'
+alias sstart='brew services start postgresql@16 && brew services start redis'
+
 # ls
 alias ls="ls -FG"
-alias l="ls -lAhG"
 alias ll="ls -GhlF"
 alias la='ls -AG'
 
@@ -19,24 +28,38 @@ alias gs='git status'
 alias gg='git grep -n'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 
+# fossile
+alias fos='fossil'
+
+# github
+alias gow='gh repo view --web'
+alias ai='gh copilot'
+
+# ruby
+alias latestruby='curl -s https://www.ruby-lang.org/en/downloads/ | grep "The current stable version is" | sed -E "s/.*version is ([0-9]+\.[0-9]+\.[0-9]+).*/\1/"'
+
 # rails
 alias r='rails'
 alias rc='rails console'
-alias rs='rails server'
-alias rg='rails generate'
+alias rse='rails server'
+alias rge='rails generate'
 
 alias a='autotest -rails'
 alias tlog='tail -f log/development.log'
-alias scaffold='script/generate nifty_scaffold'
-alias migrate='rake db:migrate db:test:clone'
+alias rdbm='rails db:migrate db:test:clone'
 
+alias rt='rails test'
 alias rst='touch tmp/restart.txt'
-alias rs='rake spec RAILS_ENV=test'
-alias rss='rake spec RAILS_ENV=test; rake cucumber'
-alias rp='rake parallel:spec; rake parallel:features'
+alias rspp='rake parallel:spec; rake parallel:features'
+alias rspm='rspec spec/models'
+alias rspc='rspec spec/controllers'
+alias rspr='rspec spec/requests'
+alias rspf='rspec spec/features --tag "~js"'
+alias rspj='rspec spec/features --tag js'
 
 # commands starting with % for pasting from web
 alias %=' '
 
 # changing directory to code project
 function p { cd ~/Projects/$1; }
+function le { cd ~/Projects/learning/$1; }

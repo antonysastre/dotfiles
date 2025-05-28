@@ -1,10 +1,9 @@
 #!/usr/bin/ruby
 require 'irb/completion'
-require 'irb/ext/save-history'
+require 'readline'
 
-IRB.conf[:SAVE_HISTORY] = 1000
+IRB.conf[:SAVE_HISTORY] = 100
 IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb_history"
-
 IRB.conf[:PROMPT_MODE] = :SIMPLE
 
 %w[rubygems looksee/shortcuts wirble].each do |gem|
@@ -55,8 +54,8 @@ end
 
 load File.dirname(__FILE__) + '/.railsrc' if $0 == 'irb' && ENV['RAILS_ENV']
 
-if defined? Rails
-  puts "Loading your blueprints..."
-  require Rails.root.join("spec", "blueprints") if File.exists?(Rails.root.join("spec", "blueprints.rb"))
-  require Rails.root.join("spec", "support", "blueprints") if File.exists?(Rails.root.join("spec", "support", "blueprints.rb"))
-end
+#if defined? Rails
+#  puts "Loading your blueprints..."
+#  require Rails.root.join("spec", "blueprints") if File.exists?(Rails.root.join("spec", "blueprints.rb"))
+#  require Rails.root.join("spec", "support", "blueprints") if File.exists?(Rails.root.join("spec", "support", "blueprints.rb"))
+#end
