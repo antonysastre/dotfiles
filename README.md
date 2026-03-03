@@ -2,63 +2,33 @@
 
 ## Installation
 
-  ```
-  git clone git@github.com:antonysastre/dotfiles.git ~/.dotfiles
-  cd ~/.dotfiles
-  ./setup
-  source ~/.bash_profile
-  # edit ~/.gitconfig and personalize it
-  ```
-
-## Features
-
-Coding projects in ~/Projects can easily be accessed (and tab completed) with the "p" command.
-
-  `p project-name<tab>`
-
-There is also an "h" command which behaves similar, but acts on the
-home path.
-
-  `h doc<tab>`
-
-Tab completion is also added to rake and cap commands:
-
-  `rake db:mi<tab>`
-  `cap de<tab>`
-
-To speed things up, the results are cached in local .rake_tasks~ and
-.cap_tasks~. It is smart enough to expire the cache automatically in
-most cases, but you can simply remove the files to flush the cache.
-
-There are a few key bindings set. Many of these require option to be
-set as the meta key. Option-left/right arrow will move cursor by word,
-and control-left/right will move to beginning and end of line.
-Control-option-N will open a new tab with the current directory under
-Mac OS X Terminal.
-
-If you're using git, you'll notice the current branch name shows up in
-the prompt while in a git repository.
-
-If you're using Rails, you'll find some handy aliases (below). You can
-also use show_log and hide_log in script/console to show the log inline.
-
 ```
-  rs       # rails server
-  rc       # rails console
-  rg       # rails generate
-  a        # autotest
-  tlog     # tail -f log/development.log
-  rst      # touch tmp/restart.txt
-  migrate  # rake db:migrate db:test:clone
+git clone git@github.com:antonysastre/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+./setup
 ```
 
-See the other aliases in `~/.zsh/aliases`
+This will:
+1. Install packages from the `Brewfile` (gh, mise, stow, Ghostty, Zed)
+2. Symlink everything in `home/` into `~` via GNU Stow
 
-If there are some shell configuration settings which you want secure or
-specific to one system, place it into a ~/.localrc file. This will be
-loaded automatically if it exists.
+## What's included
 
-There are several features enabled in Ruby's irb including history,
-completion and auto-indent. Many convenience methods are added as well
-such as "ri" which can be used to get inline documentation in IRB.
-See irbrc and railsrc files for details.
+- **`.zshrc`** — PATH, mise activation, alias loading, optional `~/.localrc`
+- **`.aliases`** — shortcuts for git, Rails, project navigation (`p project-name`)
+- **`.gitconfig`** — user config, Zed as editor, global gitignore
+- **`.irbrc` / `.railsrc`** — IRB history, completion, Rails console helpers
+- **`.rspec`** — color output
+- **`.inputrc`** — readline key bindings
+
+## Adding a new dotfile
+
+Drop it into `home/` with a dot prefix and re-run:
+
+```
+stow -t ~ home
+```
+
+## Machine-specific config
+
+Put anything private or machine-specific in `~/.localrc` — it's sourced automatically and not tracked in this repo.

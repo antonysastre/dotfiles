@@ -1,0 +1,5 @@
+brew "gh"
+brew "mise"
+brew "stow"
+cask "ghostty"
+cask "zed"

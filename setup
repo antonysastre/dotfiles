@@ -1,11 +1,7 @@
-#/bin/bash
+#!/bin/bash
 
-for f in `pwd`/copy/*
-do
-  cp -i $f ~/.`basename $f`
-done
+# Install Homebrew packages
+brew bundle --file="$(dirname "$0")/Brewfile"
 
-for f in `pwd`/link/*
-do
-  ln -nsi $f ~/.`basename $f`
-done
+# Symlink dotfiles via stow
+cd "$(dirname "$0")" && stow -t ~ home

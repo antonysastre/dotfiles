@@ -1,0 +1,11 @@
+# Path
+export PATH="$HOME/.local/bin:$PATH"
+
+# Mise
+eval "$(mise activate zsh)"
+
+# Aliases
+[ -f ~/.aliases ] && source ~/.aliases
+
+# Local config
+[ -f ~/.localrc ] && source ~/.localrc
