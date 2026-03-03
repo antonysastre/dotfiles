@@ -1,5 +1,6 @@
 brew "gh"
 brew "mise"
+brew "starship"
 brew "stow"
 cask "ghostty"
 cask "zed"

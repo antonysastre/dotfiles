@@ -4,4 +4,4 @@
 brew bundle --file="$(dirname "$0")/Brewfile"
 
 # Symlink dotfiles via stow
-cd "$(dirname "$0")" && stow -t ~ home
+cd "$(dirname "$0")" && stow --adopt -t ~ home && git checkout -- home/
