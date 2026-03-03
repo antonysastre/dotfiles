@@ -1,4 +1,5 @@
 brew "gh"
+brew "libyaml"
 brew "mise"
 brew "starship"
 brew "stow"
