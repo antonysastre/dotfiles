@@ -1,0 +1,8 @@
+brew "gh"
+brew "libyaml"
+brew "mise"
+brew "starship"
+brew "stow"
+cask "docker"
+cask "ghostty"
+cask "zed"

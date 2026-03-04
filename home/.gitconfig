@@ -12,7 +12,7 @@
 	status = auto
 	branch = auto
 [core]
-	excludesfile = ~/.gitignore
-	editor = vim
+	excludesfile = ~/.gitignore_global
+	editor = zed --wait
 [apply]
 	whitespace = nowarn

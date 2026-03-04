@@ -1,11 +1,10 @@
-#/bin/bash
+#!/bin/bash
 
-for f in `pwd`/copy/*
-do
-  cp -i $f ~/.`basename $f`
-done
+# Install Homebrew packages
+brew bundle --file="$(dirname "$0")/Brewfile"
 
-for f in `pwd`/link/*
-do
-  ln -nsi $f ~/.`basename $f`
-done
+# Symlink dotfiles via stow
+cd "$(dirname "$0")" && stow --adopt -t ~ home && git checkout -- home/
+
+# Remap Caps Lock to Control
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}' > /dev/null
