@@ -11,7 +11,7 @@ if ! command -v brew &>/dev/null; then
 fi
 
 # Install/update Homebrew packages
-brew bundle --file="$DOTFILES/Brewfile" --no-lock
+brew bundle --file="$DOTFILES/Brewfile"
 
 # Symlink dotfiles via stow
 # --adopt: pulls any existing files into the repo (handles re-runs)
