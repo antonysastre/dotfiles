@@ -55,6 +55,8 @@ alias rspm='rspec spec/models'
 alias rspc='rspec spec/controllers'
 alias rspr='rspec spec/requests'
 alias rspf='rspec spec/features --tag "~js"'
+
+alias rspnj='rspec --tag "~js"'
 alias rspj='rspec spec/features --tag js'
 
 # commands starting with % for pasting from web
