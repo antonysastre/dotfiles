@@ -1,11 +1,7 @@
 [user]
 	name = Antony Sastre
 	email = antony@northcollective.se
-[alias]
-	ci = commit
-	co = checkout
-	st = status
-	automerge = !git config branch.master.remote origin && git config branch.master.merge refs/heads/master
+  	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILr/tBrdq2Rm/UlXLyKt07fE08YwQKwKeWNjWg6/ktnQ
 [color]
 	interactive = auto
 	diff = auto
@@ -13,6 +9,23 @@
 	branch = auto
 [core]
 	excludesfile = ~/.gitignore_global
-	editor = zed --wait
+	editor = nvim
+	ignorecase = false
 [apply]
 	whitespace = nowarn
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[commit]
+	gpgsign = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+	allowedSignersFile = /Users/sastre/.ssh/allowed_signers
+[i18n]
+	locale = C
+[init]
+	defaultBranch = main

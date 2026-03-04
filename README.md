@@ -9,17 +9,23 @@ cd ~/.dotfiles
 ```
 
 This will:
-1. Install packages from the `Brewfile` (gh, mise, stow, Ghostty, Zed)
-2. Symlink everything in `home/` into `~` via GNU Stow
+1. Install Homebrew (if not present)
+2. Install packages from the `Brewfile` (mise, starship, stow, Ghostty, Zed, Nerd Fonts)
+3. Symlink everything in `home/` into `~` via GNU Stow
+4. Remap Caps Lock to Control
+
+Re-running `./setup` on an existing machine is safe — it adopts any changed files, restores repo versions, and updates packages.
 
 ## What's included
 
-- **`.zshrc`** — PATH, mise activation, alias loading, optional `~/.localrc`
+- **`.zshrc`** — brew, mise, starship prompt, completions, keybindings, alias/localrc loading
 - **`.aliases`** — shortcuts for git, Rails, project navigation (`p project-name`)
-- **`.gitconfig`** — user config, Zed as editor, global gitignore
+- **`.gitconfig`** — SSH commit signing via 1Password, nvim editor, git-lfs, global gitignore
 - **`.irbrc` / `.railsrc`** — IRB history, completion, Rails console helpers
 - **`.rspec`** — color output
 - **`.inputrc`** — readline key bindings
+- **`starship.toml`** — Nerd Font icons for the Starship prompt
+- **`com.local.capslock-to-ctrl.plist`** — Caps Lock remap on login
 
 ## Adding a new dotfile
 
