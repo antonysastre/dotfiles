@@ -22,9 +22,11 @@ else
     compinit -C
 fi
 
-# Key bindings (Option+Arrow for word navigation)
-bindkey "^[[1;3C" forward-word
-bindkey "^[[1;3D" backward-word
+# Key bindings
+bindkey "^[[1;3C" forward-word      # Option+Right
+bindkey "^[[1;3D" backward-word     # Option+Left
+bindkey "^[[A" history-search-backward  # Up arrow: search history matching current input
+bindkey "^[[B" history-search-forward   # Down arrow: search history matching current input
 
 # Starship prompt
 eval "$(starship init zsh)"
