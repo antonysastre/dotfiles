@@ -2,6 +2,7 @@ brew "gh"
 brew "libyaml"
 brew "mise"
 brew "starship"
+brew "claude-code"
 brew "stow"
 
 cask "docker-desktop" unless system "/bin/test", "-e", "/usr/local/bin/docker"

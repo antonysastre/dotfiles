@@ -18,6 +18,9 @@ brew bundle --file="$DOTFILES/Brewfile"
 # git checkout: restores the repo versions after adopt
 cd "$DOTFILES" && stow --adopt -t ~ home && git checkout -- home/
 
+# Create Projects directory
+mkdir -p ~/Projects
+
 # Remap Caps Lock to Control (persists until reboot, plist handles login)
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}' > /dev/null
 
