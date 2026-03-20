@@ -1,0 +1,33 @@
+# Theme
+theme = Catppuccin Mocha
+
+# Font
+font-family = FiraCode Nerd Font
+font-size = 16
+font-thicken = true
+
+# Window
+window-padding-x = 12
+window-padding-y = 8
+window-padding-balance = true
+window-padding-color = background
+window-save-state = always
+
+# macOS
+macos-titlebar-style = tabs
+macos-option-as-alt = left
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Mouse
+mouse-hide-while-typing = true
+
+# Clipboard
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = clipboard
+
+# Misc
+confirm-close-surface = false

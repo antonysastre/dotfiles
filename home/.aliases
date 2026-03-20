@@ -17,16 +17,16 @@ alias ll="ls -GhlF"
 alias la='ls -AG'
 
 # git
-alias gl='git pull'
-alias gp='git push'
-alias gd='git diff'
-alias gc='git commit'
-alias gb="git for-each-ref --sort=-committerdate --format='%(refname:short) %(committerdate)' refs/heads/"
+alias gpu='git pull'
+alias gph='git push'
+alias gdi='git diff'
+alias gct='git commit'
 alias gca='git commit -a'
 alias gco='git checkout'
-alias gs='git status'
-alias gg='git grep -n'
+alias gst='git status'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+alias gb="git for-each-ref --sort=-committerdate --format='%(refname:short) %(committerdate)' refs/heads/"
+alias gg='git grep -n'
 
 # fossile
 alias fos='fossil'
