@@ -3,6 +3,7 @@ brew "libyaml"
 brew "mise"
 brew "starship"
 brew "stow"
+brew "zsh-history-substring-search"
 
 cask "docker-desktop" unless system "/bin/test", "-e", "/usr/local/bin/docker"
 cask "ghostty" unless system "/bin/test", "-e", "/Applications/Ghostty.app"

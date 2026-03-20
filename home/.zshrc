@@ -26,6 +26,11 @@ fi
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
 
+# History substring search (type text, then up/down to find matching history)
+source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey "^[[A" history-substring-search-up
+bindkey "^[[B" history-substring-search-down
+
 # Starship prompt
 eval "$(starship init zsh)"
 
