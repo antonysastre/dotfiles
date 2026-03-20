@@ -14,9 +14,19 @@ fi
 brew bundle --file="$DOTFILES/Brewfile"
 
 # Symlink dotfiles via stow
-# --adopt: pulls any existing files into the repo (handles re-runs)
-# git checkout: restores the repo versions after adopt
-cd "$DOTFILES" && stow --adopt -t ~ home && git checkout -- home/
+# Remove stale symlinks or back up real files that would conflict
+cd "$DOTFILES"
+stow -n -t ~ home 2>&1 | grep "existing target" | sed 's/.*: //' | while read -r file; do
+    target="$HOME/$file"
+    if [ -L "$target" ]; then
+        rm "$target"
+    elif [ -e "$target" ]; then
+        mkdir -p "$(dirname "$DOTFILES/backup/$file")"
+        mv "$target" "$DOTFILES/backup/$file"
+        echo "Backed up ~/$file to backup/$file"
+    fi
+done
+stow -t ~ home
 
 # Create Projects directory
 mkdir -p ~/Projects

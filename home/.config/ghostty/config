@@ -15,7 +15,7 @@ window-save-state = always
 
 # macOS
 macos-titlebar-style = tabs
-macos-option-as-alt = left
+macos-option-as-alt = right
 
 # Cursor
 cursor-style = block
