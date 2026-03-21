@@ -1,5 +1,5 @@
 # Theme
-theme = Catppuccin Mocha
+theme = tokyonight
 
 # Font
 font-family = FiraCode Nerd Font
