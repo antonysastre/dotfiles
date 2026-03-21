@@ -43,6 +43,39 @@ config.keys = {
     mods = "SUPER",
     action = wezterm.action.ClearScrollback("ScrollbackAndViewport"),
   },
+  -- Split pane right (Cmd+D, like Ghostty)
+  {
+    key = "d",
+    mods = "SUPER",
+    action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+  },
+  -- Split pane down (Cmd+Shift+D)
+  {
+    key = "D",
+    mods = "SUPER|SHIFT",
+    action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+  },
+  -- Navigate panes (Cmd+Shift+Arrow, like Ghostty)
+  {
+    key = "LeftArrow",
+    mods = "SUPER|SHIFT",
+    action = wezterm.action.ActivatePaneDirection("Left"),
+  },
+  {
+    key = "RightArrow",
+    mods = "SUPER|SHIFT",
+    action = wezterm.action.ActivatePaneDirection("Right"),
+  },
+  {
+    key = "UpArrow",
+    mods = "SUPER|SHIFT",
+    action = wezterm.action.ActivatePaneDirection("Up"),
+  },
+  {
+    key = "DownArrow",
+    mods = "SUPER|SHIFT",
+    action = wezterm.action.ActivatePaneDirection("Down"),
+  },
   -- Rename tab (Cmd+Shift+E)
   {
     key = "E",
