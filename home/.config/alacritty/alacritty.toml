@@ -1,0 +1,25 @@
+general.import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+size = 12
+
+[window]
+padding.x = 14
+padding.y = 14
+decorations = "None"
+
+[cursor.style]
+shape = "Block"
+blinking = "Never"
+
+[mouse]
+hide_when_typing = true
+
+[selection]
+save_to_clipboard = true

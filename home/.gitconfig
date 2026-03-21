@@ -23,8 +23,8 @@
 [gpg]
 	format = ssh
 [gpg "ssh"]
-	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-	allowedSignersFile = /Users/sastre/.ssh/allowed_signers
+	program = /opt/1Password/op-ssh-sign
+	allowedsignersfile = /home/sastre/.ssh/allowed_signers
 [i18n]
 	locale = C
 [init]

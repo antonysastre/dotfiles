@@ -2,6 +2,26 @@
 set -e
 
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
+OS="$(uname -s)"
+
+if [ "$OS" = "Linux" ]; then
+    echo "Linux detected."
+
+    if ! command -v stow &>/dev/null; then
+        echo "Installing stow..."
+        sudo pacman -S --noconfirm stow
+    fi
+
+    cd "$DOTFILES"
+    stow -t ~ home
+
+    if command -v alacritty &>/dev/null; then
+        echo "Alacritty configured."
+    fi
+
+    echo "Done!"
+    exit 0
+fi
 
 # Install Homebrew if not present
 if ! command -v brew &>/dev/null; then
