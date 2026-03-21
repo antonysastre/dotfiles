@@ -19,6 +19,12 @@ if [ "$OS" = "Linux" ]; then
         echo "Alacritty configured."
     fi
 
+    # Source aliases from bashrc if not already
+    if ! grep -q 'source ~/.aliases' ~/.bashrc 2>/dev/null; then
+        echo -e '\n# Dotfiles aliases\nsource ~/.aliases' >> ~/.bashrc
+        echo "Aliases added to .bashrc"
+    fi
+
     echo "Done!"
     exit 0
 fi
