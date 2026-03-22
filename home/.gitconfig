@@ -23,8 +23,11 @@
 [gpg]
 	format = ssh
 [gpg "ssh"]
-	program = /opt/1Password/op-ssh-sign
-	allowedsignersfile = /home/sastre/.ssh/allowed_signers
+	allowedsignersfile = ~/.ssh/allowed_signers
+[includeIf "gitdir:/Users/"]
+	path = ~/.gitconfig-macos
+[includeIf "gitdir:/home/"]
+	path = ~/.gitconfig-linux
 [i18n]
 	locale = C
 [init]
