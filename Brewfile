@@ -1,3 +1,4 @@
+brew "duti"
 brew "gh"
 brew "libyaml"
 brew "mise"
@@ -7,7 +8,6 @@ brew "zsh-history-substring-search"
 
 cask "docker-desktop" unless system "/bin/test", "-e", "/usr/local/bin/docker"
 cask "ghostty" unless system "/bin/test", "-e", "/Applications/Ghostty.app"
-cask "wezterm" unless system "/bin/test", "-e", "/Applications/WezTerm.app"
 cask "zed" unless system "/bin/test", "-e", "/Applications/Zed.app"
 cask "font-fira-code-nerd-font" unless system "/bin/test", "-e", "#{Dir.home}/Library/Fonts/FiraCodeNerdFont-Bold.ttf"
 cask "github" unless system "/bin/test", "-e", "/Applications/GitHub Desktop.app"

@@ -5,7 +5,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="$HOME/.local/bin:$PATH"
 
 # Editor
-export EDITOR="nvim"
+export EDITOR="zed --wait"
 
 # Language
 export LANG=en_US.UTF-8

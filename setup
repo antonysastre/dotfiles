@@ -15,6 +15,12 @@ if [ "$OS" = "Linux" ]; then
     cd "$DOTFILES"
     stow -t ~ home
 
+    # Install Zed if not present
+    if ! command -v zed &>/dev/null; then
+        echo "Installing Zed..."
+        curl -f https://zeditor.dev/install.sh | sh
+    fi
+
     # Source aliases from bashrc if not already
     if ! grep -q 'source ~/.aliases' ~/.bashrc 2>/dev/null; then
         echo -e '\n# Dotfiles aliases\nsource ~/.aliases' >> ~/.bashrc
@@ -42,6 +48,15 @@ git checkout -- home
 
 # Create Projects directory
 mkdir -p ~/Projects
+
+# Set Zed as default editor for code files via Launch Services
+duti -s dev.zed.Zed public.plain-text all
+duti -s dev.zed.Zed public.source-code all
+duti -s dev.zed.Zed public.shell-script all
+duti -s dev.zed.Zed public.json all
+duti -s dev.zed.Zed public.yaml all
+duti -s dev.zed.Zed public.xml all
+duti -s dev.zed.Zed public.data all
 
 # Remap Caps Lock to Control (persists until reboot, plist handles login)
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}' > /dev/null
