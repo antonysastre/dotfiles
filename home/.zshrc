@@ -1,6 +1,9 @@
 # Brew (must come first on Apple Silicon)
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# API Development Keys
+export GEMINI_API_KEY=$(op read "op://NC/Development/GEMINI_API_KEY")
+
 # Path
 export PATH="$HOME/.local/bin:$PATH"
 
