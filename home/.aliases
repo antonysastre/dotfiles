@@ -64,4 +64,5 @@ alias %=' '
 
 # changing directory to code project
 function p { cd ~/Projects/$1; }
+function h { cd ~; }
 function le { cd ~/Projects/learning/$1; }

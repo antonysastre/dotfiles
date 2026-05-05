@@ -14,7 +14,7 @@ This will:
 3. Symlink everything in `home/` into `~` via GNU Stow
 4. Remap Caps Lock to Control
 
-Re-running `./setup` on an existing machine is safe — it adopts any changed files, restores repo versions, and updates packages.
+Re-running `./setup` updates packages and refreshes symlinks. If a real file already exists where stow wants to place a symlink, setup aborts and lists the conflicts — resolve by removing or backing up the conflicting file, then re-run.
 
 ## What's included
 
@@ -25,6 +25,7 @@ Re-running `./setup` on an existing machine is safe — it adopts any changed fi
 - **`.rspec`** — color output
 - **`.inputrc`** — readline key bindings
 - **`starship.toml`** — Nerd Font icons for the Starship prompt
+- **`.claude/settings.json`** — Claude Code preferences (editor mode, plugins, permission allowlist)
 - **`com.local.capslock-to-ctrl.plist`** — Caps Lock remap on login
 
 ## Adding a new dotfile
@@ -32,8 +33,10 @@ Re-running `./setup` on an existing machine is safe — it adopts any changed fi
 Drop it into `home/` with a dot prefix and re-run:
 
 ```
-stow -t ~ home
+stow --no-folding -t ~ home
 ```
+
+`--no-folding` ensures stow symlinks individual files rather than entire directories — important for paths like `~/.claude/` where only one file should be tracked while the rest of the dir holds local state.
 
 ## Machine-specific config
 

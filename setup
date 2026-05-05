@@ -13,7 +13,7 @@ if [ "$OS" = "Linux" ]; then
     fi
 
     cd "$DOTFILES"
-    stow -t ~ home
+    stow --no-folding -t ~ home
 
     # Install Zed if not present
     if ! command -v zed &>/dev/null; then
@@ -41,10 +41,9 @@ fi
 # Install/update Homebrew packages
 brew bundle --file="$DOTFILES/Brewfile"
 
-# Symlink dotfiles via stow (--adopt pulls conflicts into the package, then git restores ours)
+# Symlink dotfiles via stow — fails loudly on conflict so you can resolve manually
 cd "$DOTFILES"
-stow --adopt -t ~ home
-git checkout -- home
+stow --no-folding -t ~ home
 
 # Create Projects directory
 mkdir -p ~/Projects
