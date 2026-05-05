@@ -26,6 +26,7 @@ Re-running `./setup` updates packages and refreshes symlinks. If a real file alr
 - **`.inputrc`** — readline key bindings
 - **`starship.toml`** — Nerd Font icons for the Starship prompt
 - **`.claude/settings.json`** — Claude Code preferences (editor mode, plugins, permission allowlist)
+- **`.sheets/`** — cheat sheets managed by [`she`](https://github.com/antonysastre/sheets); the whole dir is symlinked so new sheets land in the repo automatically
 - **`com.local.capslock-to-ctrl.plist`** — Caps Lock remap on login
 
 ## Adding a new dotfile
@@ -33,10 +34,10 @@ Re-running `./setup` updates packages and refreshes symlinks. If a real file alr
 Drop it into `home/` with a dot prefix and re-run:
 
 ```
-stow --no-folding -t ~ home
+stow -t ~ home
 ```
 
-`--no-folding` ensures stow symlinks individual files rather than entire directories — important for paths like `~/.claude/` where only one file should be tracked while the rest of the dir holds local state.
+Stow folds a directory into a single symlink when no real directory exists at the target — handy for `~/.sheets/` so `she new` writes into the repo. To keep stow from folding (e.g. `~/.claude/`, where only one file should be tracked and the rest is local state), make sure the target dir exists first (`mkdir -p ~/.claude`); stow will then descend and symlink files individually.
 
 ## Machine-specific config
 

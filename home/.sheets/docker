@@ -1,0 +1,15 @@
+docker ps > List running containers
+docker ps -a > List all containers
+docker images > List all images
+docker run > Run a container
+docker build > Build an image from Dockerfile
+docker exec > Execute command in container
+docker logs > Fetch container logs
+docker stop > Stop a container
+docker rm > Remove a container
+docker rmi > Remove an image
+docker pull > Pull an image from registry
+docker push > Push image to registry
+docker-compose up > Start services
+docker-compose down > Stop services
+docker volume ls > List volumes

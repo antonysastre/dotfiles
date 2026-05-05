@@ -12,8 +12,13 @@ if [ "$OS" = "Linux" ]; then
         sudo pacman -S --noconfirm stow
     fi
 
+    # Ensure ~/.claude exists so stow descends into it (per-file symlinks)
+    # rather than folding the whole dir into the repo (which would pull in
+    # sessions, credentials, cache, etc.)
+    mkdir -p ~/.claude
+
     cd "$DOTFILES"
-    stow --no-folding -t ~ home
+    stow -t ~ home
 
     # Install Zed if not present
     if ! command -v zed &>/dev/null; then
@@ -41,9 +46,14 @@ fi
 # Install/update Homebrew packages
 brew bundle --file="$DOTFILES/Brewfile"
 
+# Ensure ~/.claude exists so stow descends into it (per-file symlinks)
+# rather than folding the whole dir into the repo (which would pull in
+# sessions, credentials, cache, etc.)
+mkdir -p ~/.claude
+
 # Symlink dotfiles via stow — fails loudly on conflict so you can resolve manually
 cd "$DOTFILES"
-stow --no-folding -t ~ home
+stow -t ~ home
 
 # Create Projects directory
 mkdir -p ~/Projects
