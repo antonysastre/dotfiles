@@ -67,7 +67,6 @@ duti -s dev.zed.Zed public.shell-script all
 duti -s dev.zed.Zed public.json all
 duti -s dev.zed.Zed public.yaml all
 duti -s dev.zed.Zed public.xml all
-duti -s dev.zed.Zed public.data all
 
 # Remap Caps Lock to Control (persists until reboot, plist handles login)
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}' > /dev/null
