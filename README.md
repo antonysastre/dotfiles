@@ -26,6 +26,8 @@ Re-running `./setup` updates packages and refreshes symlinks. If a real file alr
 - **`.inputrc`** — readline key bindings
 - **`starship.toml`** — Nerd Font icons for the Starship prompt
 - **`.claude/settings.json`** — Claude Code preferences (editor mode, plugins, permission allowlist)
+- **`.claude/keybindings.json`** — Claude Code keybindings
+- **`.claude/skills/`** — custom Claude Code skills; the whole dir is symlinked so new skills land in the repo automatically
 - **`.sheets/`** — cheat sheets managed by [`she`](https://github.com/antonysastre/sheets); the whole dir is symlinked so new sheets land in the repo automatically
 - **`com.local.capslock-to-ctrl.plist`** — Caps Lock remap on login
 
