@@ -1,16 +1,6 @@
 # cd
 alias ..='cd ..'
 
-# apps in progress
-
-alias shorty='~/Projects/tools/short.link/shorty.rb'
-
-# projects
-alias rq='cd ~/Projects/qasa-api && docker compose up -d && rails server'
-alias rh='cd ~/Projects/hapvis && ./bin/dev'
-alias sstop='brew services stop postgresql@16 && brew services stop redis'
-alias sstart='brew services start postgresql@16 && brew services start redis'
-
 # ls
 alias ls="ls -FG"
 alias ll="ls -GhlF"
@@ -25,30 +15,20 @@ alias gca='git commit -a'
 alias gco='git checkout'
 alias gst='git status'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
-alias gb="git for-each-ref --sort=-committerdate --format='%(refname:short) %(committerdate)' refs/heads/"
-alias gg='git grep -n'
-
-# fossile
-alias fos='fossil'
 
 # github
 alias gow='gh repo view --web'
-alias ai='gh copilot'
-
-# ruby
-alias latestruby='curl -s https://www.ruby-lang.org/en/downloads/ | grep "The current stable version is" | sed -E "s/.*version is ([0-9]+\.[0-9]+\.[0-9]+).*/\1/"'
 
 # rails
-alias r='rails'
-alias rc='rails console'
-alias rse='rails server'
-alias rge='rails generate'
+alias rs='./bin/dev'
+alias rc='./bin/rails console'
+alias rt='./bin/rails test'
 
 alias a='autotest -rails'
 alias tlog='tail -f log/development.log'
-alias rdbm='rails db:migrate db:test:clone'
+alias rdbm='rails db:migrate'
+alias rdrs='rails db:reset'
 
-alias rt='rails test'
 alias rst='touch tmp/restart.txt'
 alias rspp='rake parallel:spec; rake parallel:features'
 alias rspm='rspec spec/models'
