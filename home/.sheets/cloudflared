@@ -1,1 +1,0 @@
-cloudflared tunnel --url <local-adress> > Create a .trycloudflare.com tunnel valid for a few hours.

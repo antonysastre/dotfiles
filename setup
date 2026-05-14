@@ -7,10 +7,12 @@ OS="$(uname -s)"
 if [ "$OS" = "Linux" ]; then
     echo "Linux detected."
 
-    if ! command -v stow &>/dev/null; then
-        echo "Installing stow..."
-        sudo pacman -S --noconfirm stow
-    fi
+    for _pkg in stow btop; do
+        if ! command -v $_pkg &>/dev/null; then
+            echo "Installing $_pkg..."
+            sudo pacman -S --noconfirm $_pkg
+        fi
+    done
 
     # Ensure ~/.claude exists so stow descends into it (per-file symlinks)
     # rather than folding the whole dir into the repo (which would pull in
