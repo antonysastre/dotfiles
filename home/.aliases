@@ -1,6 +1,9 @@
 # cd
 alias ..='cd ..'
 
+# commands
+alias che='she'
+
 # ls
 alias ls="ls -FG"
 alias ll="ls -GhlF"
@@ -19,7 +22,8 @@ alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 # github
 alias gow='gh repo view --web'
 
-# rails
+# ruby/rails
+alias be='bundle exec'
 alias rs='./bin/dev'
 alias rc='./bin/rails console'
 alias rt='./bin/rails test'
