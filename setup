@@ -7,33 +7,76 @@ OS="$(uname -s)"
 if [ "$OS" = "Linux" ]; then
     echo "Linux detected."
 
-    for _pkg in stow btop; do
-        if ! command -v $_pkg &>/dev/null; then
-            echo "Installing $_pkg..."
-            sudo pacman -S --noconfirm $_pkg
-        fi
-    done
+    if command -v apt &>/dev/null; then
+        # ── Debian / Ubuntu / Zorin ──
+        echo "  Detected apt-based system."
 
-    # Ensure ~/.claude exists so stow descends into it (per-file symlinks)
-    # rather than folding the whole dir into the repo (which would pull in
-    # sessions, credentials, cache, etc.)
+        sudo apt update -qq
+        for _pkg in stow btop gh fonts-firacode libyaml-dev; do
+            if ! dpkg -s "$_pkg" &>/dev/null 2>&1; then
+                echo "  Installing $_pkg..."
+                sudo apt install -y -qq "$_pkg"
+            fi
+        done
+
+        if ! command -v starship &>/dev/null; then
+            echo "  Installing Starship..."
+            curl -fsSL https://starship.rs/install.sh | sh -s -- -y
+        fi
+
+        if ! command -v mise &>/dev/null; then
+            echo "  Installing Mise..."
+            curl -fsSL https://mise.run | sh
+        fi
+
+        if ! command -v ghostty &>/dev/null; then
+            echo "  Installing Ghostty..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
+        fi
+
+        if command -v gsettings &>/dev/null; then
+            current_xkb=$(gsettings get org.gnome.desktop.input-sources xkb-options 2>/dev/null)
+            if [[ "$current_xkb" != *"ctrl:nocaps"* ]]; then
+                echo "  Remapping Caps Lock to Control..."
+                gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:nocaps']"
+            fi
+        fi
+
+    elif command -v pacman &>/dev/null; then
+        # ── Arch Linux ──
+        echo "  Detected pacman-based system."
+
+        sudo pacman -Syu --noconfirm --needed stow btop github-cli starship ghostty ttf-fira-code libyaml
+
+        if ! command -v mise &>/dev/null; then
+            echo "  Installing Mise..."
+            curl -fsSL https://mise.run | sh
+        fi
+    fi
+
+    # ── Common Linux steps ──
     mkdir -p ~/.claude
 
     cd "$DOTFILES"
-    stow -t ~ home
+    stow -t ~ home --ignore=Library
 
-    # Install Zed if not present
     if ! command -v zed &>/dev/null; then
-        echo "Installing Zed..."
-        set -o pipefail
+        echo "  Installing Zed..."
         curl -fsSL https://zed.dev/install.sh | sh
-        set +o pipefail
     fi
 
-    # Source aliases from bashrc if not already
     if ! grep -q 'source ~/.aliases' ~/.bashrc 2>/dev/null; then
-        echo -e '\n# Dotfiles aliases\nsource ~/.aliases' >> ~/.bashrc
-        echo "Aliases added to .bashrc"
+        {
+            echo ''
+            echo '# Dotfiles'
+            echo 'export EDITOR="zed"'
+            echo 'export PATH="$HOME/.local/bin:$PATH"'
+            echo 'source ~/.aliases'
+            echo 'eval "$(mise activate bash)"'
+            echo 'eval "$(starship init bash)"'
+            echo '[ -f ~/.localrc ] && source ~/.localrc'
+        } >> ~/.bashrc
+        echo "Dotfiles config appended to ~/.bashrc"
     fi
 
     echo "Done!"
