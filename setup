@@ -58,7 +58,14 @@ if [ "$OS" = "Linux" ]; then
     mkdir -p ~/.claude
 
     cd "$DOTFILES"
-    stow -t ~ home --ignore=Library
+    if ! stow -t ~ home --ignore=Library 2>/dev/null; then
+        echo "  Backing up conflicting files and retrying stow..."
+        for _f in home/* home/.*; do
+            _target="$HOME/${_f#home/}"
+            [ -f "$_target" ] && [ ! -L "$_target" ] && mv "$_target" "$_target.stow-backup"
+        done
+        stow -t ~ home --ignore=Library
+    fi
 
     if ! command -v zed &>/dev/null; then
         echo "  Installing Zed..."
@@ -98,9 +105,15 @@ brew bundle --file="$DOTFILES/Brewfile"
 # sessions, credentials, cache, etc.)
 mkdir -p ~/.claude
 
-# Symlink dotfiles via stow — fails loudly on conflict so you can resolve manually
+# Symlink dotfiles via stow — backs up any conflicting files
 cd "$DOTFILES"
-stow -t ~ home
+if ! stow -t ~ home 2>/dev/null; then
+    for _f in home/* home/.*; do
+        _target="$HOME/${_f#home/}"
+        [ -f "$_target" ] && [ ! -L "$_target" ] && mv "$_target" "$_target.stow-backup"
+    done
+    stow -t ~ home
+fi
 
 # Create Projects directory
 mkdir -p ~/Projects
