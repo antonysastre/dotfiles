@@ -11,7 +11,7 @@ window-padding-x = 12
 window-padding-y = 8
 window-padding-balance = true
 window-padding-color = background
-window-save-state = always
+window-save-state = default
 
 # macOS
 macos-titlebar-style = tabs
