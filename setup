@@ -118,13 +118,26 @@ fi
 # Create Projects directory
 mkdir -p ~/Projects
 
-# Set Zed as default editor for code files via Launch Services
-duti -s dev.zed.Zed public.plain-text all
-duti -s dev.zed.Zed public.source-code all
-duti -s dev.zed.Zed public.shell-script all
-duti -s dev.zed.Zed public.json all
-duti -s dev.zed.Zed public.yaml all
-duti -s dev.zed.Zed public.xml all
+# Set Zed as default editor for code files via Launch Services.
+# NOTE: broad content-types (public.source-code etc.) are NOT enough — macOS
+# resolves many extensions to a *specific* UTI that another app owns, and the
+# specific binding wins. e.g. .ts -> public.mpeg-2-transport-stream (a video
+# UTI grabbed by Warp), .rb -> public.ruby-script (Xcode), .py -> python-script
+# (IDLE). So we bind the concrete per-extension UTIs explicitly below.
+# Find an extension's real UTI with: mdls -name kMDItemContentType file.ext
+# Verify the active handler with: duti -d <uti>   (NOT `duti -x <ext>`, stale)
+for uti in \
+  public.plain-text public.source-code public.shell-script public.json \
+  public.yaml public.xml public.python-script public.ruby-script \
+  public.php-script public.swift-source com.netscape.javascript-source \
+  com.microsoft.typescript public.mpeg-2-transport-stream \
+  dyn.ah62d4rv4ge80y652 \
+  dyn.ah62d4rv4ge80s52  \
+  dyn.ah62d4rv4ge81e62  \
+  dyn.ah62d4rv4ge8007a  \
+  dyn.ah62d4rv4ge8027pb ; do
+  duti -s dev.zed.Zed "$uti" all
+done
 
 # Remap Caps Lock to Control (persists until reboot, plist handles login)
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}' > /dev/null
