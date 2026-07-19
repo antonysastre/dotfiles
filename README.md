@@ -14,7 +14,7 @@ This will:
 3. Symlink everything in `home/` into `~` via GNU Stow
 4. Remap Caps Lock to Control
 
-Re-running `./setup` on an existing machine is safe — it adopts any changed files, restores repo versions, and updates packages.
+Re-running `./setup` updates packages and refreshes symlinks. If a real file already exists where stow wants to place a symlink, setup aborts and lists the conflicts — resolve by removing or backing up the conflicting file, then re-run.
 
 ## What's included
 
@@ -25,6 +25,10 @@ Re-running `./setup` on an existing machine is safe — it adopts any changed fi
 - **`.rspec`** — color output
 - **`.inputrc`** — readline key bindings
 - **`starship.toml`** — Nerd Font icons for the Starship prompt
+- **`.claude/settings.json`** — Claude Code preferences (editor mode, plugins, permission allowlist)
+- **`.claude/keybindings.json`** — Claude Code keybindings
+- **`.claude/skills/`** — custom Claude Code skills; the whole dir is symlinked so new skills land in the repo automatically
+- **`.sheets/`** — cheat sheets managed by [`she`](https://github.com/antonysastre/sheets); the whole dir is symlinked so new sheets land in the repo automatically
 - **`com.local.capslock-to-ctrl.plist`** — Caps Lock remap on login
 
 ## Adding a new dotfile
@@ -34,6 +38,8 @@ Drop it into `home/` with a dot prefix and re-run:
 ```
 stow -t ~ home
 ```
+
+Stow folds a directory into a single symlink when no real directory exists at the target — handy for `~/.sheets/` so `she new` writes into the repo. To keep stow from folding (e.g. `~/.claude/`, where only one file should be tracked and the rest is local state), make sure the target dir exists first (`mkdir -p ~/.claude`); stow will then descend and symlink files individually.
 
 ## Machine-specific config
 

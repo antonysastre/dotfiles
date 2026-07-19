@@ -4,8 +4,15 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Path
 export PATH="$HOME/.local/bin:$PATH"
 
+# Ghostty shell integration (manual fallback). Ghostty launches the shell via
+# `/usr/bin/login ... exec -l /bin/zsh`, so its automatic injection doesn't run
+# (ZDOTDIR stays unset, no OSC 7 cwd reporting -> new tabs/splits lose the cwd).
+if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
+    builtin source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
+fi
+
 # Editor
-export EDITOR="nvim"
+export EDITOR="zed"
 
 # Language
 export LANG=en_US.UTF-8

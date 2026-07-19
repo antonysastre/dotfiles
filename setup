@@ -7,18 +7,83 @@ OS="$(uname -s)"
 if [ "$OS" = "Linux" ]; then
     echo "Linux detected."
 
-    if ! command -v stow &>/dev/null; then
-        echo "Installing stow..."
-        sudo pacman -S --noconfirm stow
+    if command -v apt &>/dev/null; then
+        # ── Debian / Ubuntu / Zorin ──
+        echo "  Detected apt-based system."
+
+        sudo apt update -qq
+        for _pkg in stow btop gh fonts-firacode libyaml-dev; do
+            if ! dpkg -s "$_pkg" &>/dev/null 2>&1; then
+                echo "  Installing $_pkg..."
+                sudo apt install -y -qq "$_pkg"
+            fi
+        done
+
+        if ! command -v starship &>/dev/null; then
+            echo "  Installing Starship..."
+            curl -fsSL https://starship.rs/install.sh | sh -s -- -y
+        fi
+
+        if ! command -v mise &>/dev/null; then
+            echo "  Installing Mise..."
+            curl -fsSL https://mise.run | sh
+        fi
+
+        if ! command -v ghostty &>/dev/null; then
+            echo "  Installing Ghostty..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
+        fi
+
+        if command -v gsettings &>/dev/null; then
+            current_xkb=$(gsettings get org.gnome.desktop.input-sources xkb-options 2>/dev/null)
+            if [[ "$current_xkb" != *"ctrl:nocaps"* ]]; then
+                echo "  Remapping Caps Lock to Control..."
+                gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:nocaps']"
+            fi
+        fi
+
+    elif command -v pacman &>/dev/null; then
+        # ── Arch Linux ──
+        echo "  Detected pacman-based system."
+
+        sudo pacman -Syu --noconfirm --needed stow btop github-cli starship ghostty ttf-fira-code libyaml
+
+        if ! command -v mise &>/dev/null; then
+            echo "  Installing Mise..."
+            curl -fsSL https://mise.run | sh
+        fi
     fi
 
-    cd "$DOTFILES"
-    stow -t ~ home
+    # ── Common Linux steps ──
+    mkdir -p ~/.claude
 
-    # Source aliases from bashrc if not already
+    cd "$DOTFILES"
+    if ! stow -t ~ home --ignore=Library 2>/dev/null; then
+        echo "  Backing up conflicting files and retrying stow..."
+        for _f in home/* home/.*; do
+            _target="$HOME/${_f#home/}"
+            [ -f "$_target" ] && [ ! -L "$_target" ] && mv "$_target" "$_target.stow-backup"
+        done
+        stow -t ~ home --ignore=Library
+    fi
+
+    if ! command -v zed &>/dev/null; then
+        echo "  Installing Zed..."
+        curl -fsSL https://zed.dev/install.sh | sh
+    fi
+
     if ! grep -q 'source ~/.aliases' ~/.bashrc 2>/dev/null; then
-        echo -e '\n# Dotfiles aliases\nsource ~/.aliases' >> ~/.bashrc
-        echo "Aliases added to .bashrc"
+        {
+            echo ''
+            echo '# Dotfiles'
+            echo 'export EDITOR="zed"'
+            echo 'export PATH="$HOME/.local/bin:$PATH"'
+            echo 'source ~/.aliases'
+            echo 'eval "$(mise activate bash)"'
+            echo 'eval "$(starship init bash)"'
+            echo '[ -f ~/.localrc ] && source ~/.localrc'
+        } >> ~/.bashrc
+        echo "Dotfiles config appended to ~/.bashrc"
     fi
 
     echo "Done!"
@@ -35,13 +100,44 @@ fi
 # Install/update Homebrew packages
 brew bundle --file="$DOTFILES/Brewfile"
 
-# Symlink dotfiles via stow (--adopt pulls conflicts into the package, then git restores ours)
+# Ensure ~/.claude exists so stow descends into it (per-file symlinks)
+# rather than folding the whole dir into the repo (which would pull in
+# sessions, credentials, cache, etc.)
+mkdir -p ~/.claude
+
+# Symlink dotfiles via stow — backs up any conflicting files
 cd "$DOTFILES"
-stow --adopt -t ~ home
-git checkout -- home
+if ! stow -t ~ home 2>/dev/null; then
+    for _f in home/* home/.*; do
+        _target="$HOME/${_f#home/}"
+        [ -f "$_target" ] && [ ! -L "$_target" ] && mv "$_target" "$_target.stow-backup"
+    done
+    stow -t ~ home
+fi
 
 # Create Projects directory
 mkdir -p ~/Projects
+
+# Set Zed as default editor for code files via Launch Services.
+# NOTE: broad content-types (public.source-code etc.) are NOT enough — macOS
+# resolves many extensions to a *specific* UTI that another app owns, and the
+# specific binding wins. e.g. .ts -> public.mpeg-2-transport-stream (a video
+# UTI grabbed by Warp), .rb -> public.ruby-script (Xcode), .py -> python-script
+# (IDLE). So we bind the concrete per-extension UTIs explicitly below.
+# Find an extension's real UTI with: mdls -name kMDItemContentType file.ext
+# Verify the active handler with: duti -d <uti>   (NOT `duti -x <ext>`, stale)
+for uti in \
+  public.plain-text public.source-code public.shell-script public.json \
+  public.yaml public.xml public.python-script public.ruby-script \
+  public.php-script public.swift-source com.netscape.javascript-source \
+  com.microsoft.typescript public.mpeg-2-transport-stream \
+  dyn.ah62d4rv4ge80y652 \
+  dyn.ah62d4rv4ge80s52  \
+  dyn.ah62d4rv4ge81e62  \
+  dyn.ah62d4rv4ge8007a  \
+  dyn.ah62d4rv4ge8027pb ; do
+  duti -s dev.zed.Zed "$uti" all
+done
 
 # Remap Caps Lock to Control (persists until reboot, plist handles login)
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}' > /dev/null

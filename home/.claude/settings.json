@@ -1,0 +1,32 @@
+{
+  "env": {
+    "EDITOR": "zed --wait"
+  },
+  "permissions": {
+    "allow": [],
+    "deny": [],
+    "ask": [],
+    "defaultMode": "default"
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-code-plugins": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "ruby-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true
+  },
+  "effortLevel": "xhigh",
+  "tui": "fullscreen",
+  "voice": {
+    "enabled": true,
+    "mode": "tap"
+  },
+  "skipWorkflowUsageWarning": true,
+  "theme": "auto",
+  "editorMode": "vim",
+  "autoCompactEnabled": true,
+  "respondToBashCommands": false,
+  "fileCheckpointingEnabled": false,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true
+}
