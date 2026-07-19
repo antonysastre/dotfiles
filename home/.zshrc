@@ -41,3 +41,10 @@ eval "$(starship init zsh)"
 
 # Local/private config (not tracked in repo)
 [ -f ~/.localrc ] && source ~/.localrc
+
+# bun completions
+[ -s "/Users/antony/.bun/_bun" ] && source "/Users/antony/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
