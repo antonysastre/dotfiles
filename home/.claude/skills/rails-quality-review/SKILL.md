@@ -1,82 +1,94 @@
 ---
-  name: rails-qa-review
-  description: Review Rails code for quality and issues
+name: rails-quality-review
+description: >
+  Review Rails/Ruby code for quality: fat models & thin controllers, single responsibility, DRY, naming, Rails conventions, performance, and test coverage.
+  Use whenever the user asks to review, audit, QA, or improve Rails code — models, controllers, services, jobs, concerns, migrations — or asks whether an implementation follows Rails best practices.
+  Also trigger when the user mentions fat controllers, god models, SRP violations, business logic in the wrong layer, or wants a quality pass before merging.
 ---
 
-Apply the Pragmatic Programmer principles to Rails/Ruby code, but ensure and prioritize to not change behaviour:
+# Rails Quality Review Skill
 
-1. DRY
-   Avoid duplicated business rules, validations, scopes, queries, and view conditionals.
-   Do not abstract merely because code looks similar. Extract only when duplication has the same reason to change.
+Apply the checks below in priority order. This is a review: prioritize not changing behaviour, and flag rather than rewrite unless asked to fix.
 
-2. Orthogonality
-   Keep controllers, models, jobs, mailers, views, and service objects independent.
-   Scan the controllers for domain logic that should be in models.
-   Make sure change in UI do not alter domain logic.
-   Make sure changes doe not alter domain logic they are not responsible for.
+## 1. Fat models, thin controllers (primary focus)
 
-3. Don’t Live with Broken Windows
-   Flag dead code, unclear names, ignored failing tests, skipped validations, stale comments, TODOs without ownership, and inconsistent conventions.
-   Prefer small cleanup when touching nearby code.
+A controller action does exactly four things: authorize, load, make one domain call, respond. Everything else is a finding. Hunt for:
 
-4. Don’t Program by Coincidence
-   Do not accept code that works accidentally.
-   Explain why the Rails callback, scope, transaction, validation, association, or query behaves correctly.
-   Avoid sleeps, order-dependent tests, hidden side effects, and unexplained monkey patches.
+- Business logic in actions or controller private methods: calculations, state decisions, record orchestration, conditionals on domain state (`if @order.paid? && @order.items.any? { ... }`).
+- Multiple model writes composed in the controller — that's a domain operation; move it to a model method or PORO with a domain name, wrapped in a transaction.
+- Params-shaping that encodes business rules (defaulting, deriving, or translating values before assignment) rather than plain strong-params filtering.
+- Controllers reaching through associations to update other records the action isn't nominally about.
+- A growing pile of controller private methods — each one is usually a domain concept looking for a home in a model, PORO, or form object.
+- Callbacks (`before_action`) doing domain work rather than auth/loading.
 
-5. Refactor Early and Often
-   Prefer small, behavior-preserving improvements.
-   Improve names, extract concepts, simplify branches, and reduce duplication while preserving Rails idioms.
-   Do not introduce architecture layers without clear pressure.
+The fix direction is always the same: name the operation in domain language and move it behind one method the controller calls (`@order.approve!`, `Estimate::Submission.new(...).save`).
 
-6. Crash Early
-   Fail close to invalid input or impossible state.
-   Prefer explicit errors, validations, database constraints, and guard clauses over silent nil behavior.
-   Do not hide failures with broad rescue blocks.
+## 2. Single responsibility
 
-7. Minimize Coupling
-   Avoid long object chains, god models, fat controllers, global state, excessive callbacks, and cross-model knowledge leaks.
-   Prefer clear public methods that express domain intent.
+One reason to change per class and per method. Smells:
 
-8. Separate Views from Models
-   Keep business rules out of ERB, helpers, serializers, presenters, and frontend conditionals.
-   Views should ask meaningful questions such as `order.refundable?`, not calculate refund eligibility.
+- Methods whose honest description needs "and" — validate *and* persist *and* notify. Split, or extract a PORO that coordinates the steps explicitly.
+- Models that also format for display, build export payloads, call external APIs, or send notifications — presentation goes to helpers/presenters, integration to services/jobs.
+- Service objects or jobs that both decide *and* do — separate the policy/decision from the side effect when both are non-trivial.
+- Concerns used as junk drawers: a concern must model one capability (`Geocodable`), not "misc methods extracted to shorten the model".
+- God models: when a model accumulates unrelated clusters of methods, propose extracting a cohesive PORO per cluster rather than living with it — but don't invent layers where the model is still coherent.
 
-9. Test Ruthlessly
-   Add or update tests for changed behavior.
-   Cover happy path, failure path, edge cases, authorization, validations, jobs, mailers, and important integrations.
-   For bug fixes, add a regression test.
+## 3. DRY
 
-10. Domain Languages
-   Use names from the business domain.
-   Prefer `approve_invoice`, `capture_payment`, `schedule_inspection`, `publish_article`.
-   Avoid vague names like `process`, `handle`, `perform_stuff`, `data`, `manager`, and `service` unless the domain justifies them.
+Avoid duplicated business rules, validations, scopes, queries, and view conditionals. Do not abstract merely because code looks similar — extract only when the duplication has the same reason to change.
 
-11. Estimate Algorithmic Cost
-   Check for N+1 queries, unbounded `.all`, inefficient Ruby-side filtering, missing indexes, unnecessary object allocation, and memory-heavy batch jobs.
-   Prefer database filtering, pagination, batching, eager loading, and proper indexes.
+## 4. Orthogonality & coupling
 
-Rails-specific quality checks:
-- Follow Rails conventions before adding custom architecture.
-- Keep controllers thin: authorize, load, call domain behavior, respond.
-- Keep models cohesive: domain behavior belongs near the data, but avoid god models.
+- Keep controllers, models, jobs, mailers, views, and service objects independent; changes in UI must not alter domain logic.
+- Avoid long object chains, global state, excessive callbacks, and cross-model knowledge leaks. Prefer clear public methods that express domain intent.
+- Keep business rules out of ERB, helpers, serializers, and presenters. Views ask meaningful questions (`order.refundable?`), they don't compute eligibility.
+
+## 5. Broken windows
+
+- Flag dead code, unclear names, ignored failing tests, skipped validations, TODOs without ownership, and inconsistent conventions.
+- Flag every explanatory/narrative comment (doc blocks, inline "why" notes, comments restating the code) for removal — names and structure carry intent. Keep only functional pragmas (`# frozen_string_literal: true`, `# rubocop:...`, schema/codegen annotations, required license headers).
+- Prefer small cleanup when touching nearby code.
+
+## 6. Naming & domain language
+
+- Names come from the business domain: `approve_invoice`, `capture_payment`, `schedule_inspection` — not `process`, `handle`, `perform_stuff`, `data`, `manager`, or generic `service`.
+- Keep names concise and functional rather than technical, and consistent with existing patterns in the system.
+
+## 7. Performance & algorithmic cost
+
+- N+1 queries, unbounded `.all`, Ruby-side filtering of what the database should filter, missing indexes, unnecessary allocation, memory-heavy batch jobs.
+- Prefer database filtering, pagination, batching, eager loading, and proper indexes.
+
+## 8. Tests
+
+- Changed behavior needs new or updated tests unless covered at a higher level: happy path, failure path, edge cases, authorization, validations, jobs, mailers.
+- Bug fixes get a regression test.
+
+## Rails-specific checks
+
+- Follow Rails conventions before adding custom architecture; do not introduce architecture layers without clear pressure.
 - Use service objects only when they clarify a real workflow.
 - Prefer database constraints for real invariants: null constraints, foreign keys, unique indexes, check constraints.
 - Wrap multi-write business operations in transactions.
-- Avoid callbacks for surprising business workflows.
+- Avoid callbacks for surprising business workflows; avoid scopes with hidden side effects.
 - Avoid broad `rescue StandardError`.
-- Avoid `update_all`, `delete_all`, `find_each`, raw SQL, and callbacks bypassing APIs unless intentional and explained.
-- Prefer scopes for reusable query concepts, but avoid scopes with hidden side effects.
+- Avoid `update_all`, `delete_all`, raw SQL, and callback-bypassing writes unless intentional.
 - Prefer POROs for pure domain logic when Active Record would make the model incoherent.
 - Keep migrations reversible and production-safe.
-- Check authorization and parameter filtering in controllers.
+- Check authorization (policies) and parameter filtering in every controller action.
 - Do not introduce gems when plain Rails/Ruby is enough.
 
-When reviewing code, return:
+## Output format
+
+Return findings grouped and ordered:
 
 1. Critical correctness issues
-2. Rails convention violations
-3. Maintainability issues
-4. Performance/query issues
-5. Test gaps
-6. Suggested patch or refactor
+2. Layering violations (fat controllers, SRP, logic in the wrong layer)
+3. Rails convention violations
+4. Naming and readability issues
+5. Maintainability issues
+6. Performance/query issues
+7. Test gaps
+8. Suggested patch or refactor
+
+For each finding give a `file:line` reference, the problem in one sentence, and the concrete fix — including where the code should live and what the domain-named method would be. Skip empty sections.

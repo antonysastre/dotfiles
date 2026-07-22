@@ -11,6 +11,7 @@
 	excludesfile = ~/.gitignore_global
 	editor = nvim
 	ignorecase = false
+	pager = delta
 [apply]
 	whitespace = nowarn
 [filter "lfs"]
@@ -32,3 +33,8 @@
 	locale = C
 [init]
 	defaultBranch = main
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true

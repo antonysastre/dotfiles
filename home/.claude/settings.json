@@ -8,13 +8,33 @@
     "ask": [],
     "defaultMode": "default"
   },
+  "model": "claude-fable-5[1m]",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/sastre/.claude/hooks/no-code-comments.sh",
+            "statusMessage": "Checking commit for explanatory comments…"
+          }
+        ]
+      }
+    ]
+  },
+  "respondToBashCommands": false,
+  "statusLine": {
+    "type": "command",
+    "command": "/Users/sastre/.claude/statusline.sh"
+  },
   "enabledPlugins": {
     "frontend-design@claude-code-plugins": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "medium",
   "tui": "fullscreen",
   "voice": {
     "enabled": true,
@@ -24,7 +44,6 @@
   "theme": "auto",
   "editorMode": "vim",
   "autoCompactEnabled": true,
-  "respondToBashCommands": false,
   "fileCheckpointingEnabled": false,
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
